@@ -15,6 +15,9 @@ import Observation
     
     let types: Set = [HKQuantityType(.stepCount), HKQuantityType(.bodyMass)]
     
+    var stepData: [HealthMetric] = []
+    var weightData: [HealthMetric] = []
+    
     func fetchStepCount() async {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: .now)
@@ -23,14 +26,18 @@ import Observation
         
         let queryPredicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate)
         let samplePredicate = HKSamplePredicate.quantitySample(type: HKQuantityType(.stepCount), predicate: queryPredicate)
-        let stepsQuery = HKStatisticsCollectionQueryDescriptor(
-            predicate: samplePredicate,
-            options: .cumulativeSum,
-            anchorDate: endDate,
-            intervalComponents: .init(day: 1)
-        )
-        
-        let stepCounts = try! await stepsQuery.result(for: store)
+        let stepsQuery = HKStatisticsCollectionQueryDescriptor(predicate: samplePredicate,
+                                                               options: .cumulativeSum,
+                                                               anchorDate: endDate,
+                                                               intervalComponents: .init(day: 1))
+        do {
+            let stepCounts = try await stepsQuery.result(for: store)
+            stepData = stepCounts.statistics().map {
+                .init(date: $0.startDate, value: $0.sumQuantity()?.doubleValue(for: .count()) ?? 0)
+            }
+        } catch {
+            
+        }
     }
     
     func fetchWeights() async {
@@ -48,7 +55,14 @@ import Observation
             intervalComponents: .init(day: 1)
         )
         
-        let weights = try! await weightQuery.result(for: store)
+        do {
+            let weights = try await weightQuery.result(for: store)
+            weightData = weights.statistics().map {
+                .init(date: $0.startDate, value: $0.mostRecentQuantity()?.doubleValue(for: .gram()) ?? 0)
+            }
+        } catch {
+            
+        }
     }
     
     //    func addSimulatorData() async {
