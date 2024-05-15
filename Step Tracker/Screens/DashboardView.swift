@@ -41,27 +41,11 @@ struct DashboardView: View {
                         }
                     }
                     .pickerStyle(.segmented)
-                    
+                    // TODO: we could add settings like in topology app with some specific configurations
+                    // like: color of the charts, goals, average/weekly stats, etc
+                    // could be an option for paid version
                     StepBarChart(selectedStat: selectedStat, chartData: hkManager.stepData)
-                    
-                    VStack(alignment: .leading) {
-                        VStack(alignment: .leading) {
-                            Label("Averages", systemImage: "calendar")
-                                .font(.title3.bold())
-                                .foregroundStyle(.pink)
-                            
-                            Text("Last 28 Days")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                        .padding(.bottom, 12)
-                        
-                        RoundedRectangle(cornerRadius: 12)
-                            .foregroundStyle(.secondary)
-                            .frame(height: 240)
-                    }
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+                    StepPieChart(chartData: ChartMath.averageWeekdayCount(for: hkManager.stepData))
                 }
             }
             .padding()
