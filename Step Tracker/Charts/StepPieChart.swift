@@ -62,6 +62,7 @@ struct StepPieChart: View {
                                 Text(selectedWeekday.date.weekdayTitle)
                                     .font(.title3.bold())
                                     .contentTransition(.identity)
+                                    .animation(.none)
                                 
                                 Text(selectedWeekday.value, format: .number.precision(.fractionLength(0)))
                                     .fontWeight(.medium)
