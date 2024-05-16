@@ -12,6 +12,7 @@ struct StepBarChart: View {
     @State private var rawSelectedDate: Date?
     @State private var isExpanded = false
     @State private var stepCountInput: String = ""
+    @State private var showAverages = false
     
     var selectedStat: HealthMetricContext
     var chartData: [HealthMetric]
@@ -39,13 +40,16 @@ struct StepBarChart: View {
     }
     
     // TODO: This value could be generic from the user input as a daily goal
-    /// For example, the user could add his daily goal(10k steps) and this line would be like a  goal measure
+    /// For example, the user could add his daily goal(10k steps) and this line would be like a goal measure
     /// As an option, we can add a configure button ⚙️ to allow users to add some specific settings, like:
     /// - daily goal
     /// - colour of the widgets
     var body: some View {
         
         // TODO: Create a separate file with settings
+        // It will be implemented later with a different app
+        // Depends on the app dashboard settings
+       
         // MARK: - Settings
         
         HStack {
@@ -73,17 +77,27 @@ struct StepBarChart: View {
         if isExpanded {
             VStack {
                 HStack {
-                    Text("What is your daily step goal?")
+                    Text("Add goal line")
                         .font(.callout)
                     Spacer()
-                    TextField("10.000", text: $stepCountInput)
-                        .frame(width: 55, height: 30)
-                        .keyboardType(.numberPad)
-                        .padding(4)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(.secondary, lineWidth: 1)
-                        )
+                    Toggle("", isOn: $showAverages)
+                        .labelsHidden()
+                }
+                
+                if showAverages {
+                    HStack {
+                        Text("What is your daily step goal?")
+                            .font(.callout)
+                        Spacer()
+                        TextField("10.000", text: $stepCountInput)
+                            .frame(width: 55, height: 25)
+                            .keyboardType(.numberPad)
+                            .padding(4)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(.secondary, lineWidth: 1)
+                            )
+                    }
                 }
             }
             .padding()
@@ -125,9 +139,11 @@ struct StepBarChart: View {
                         }
                 }
                 
-                RuleMark(y: .value("Average", stepsGoal))
-                    .foregroundStyle(Color.secondary)
-                    .lineStyle(.init(lineWidth: 1, dash: [5]))
+                if showAverages {
+                    RuleMark(y: .value("Average", stepsGoal))
+                        .foregroundStyle(Color.secondary)
+                        .lineStyle(.init(lineWidth: 1, dash: [5]))
+                }
                 
                 ForEach(chartData) { steps in
                     BarMark(
