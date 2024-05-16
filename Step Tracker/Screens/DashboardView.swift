@@ -23,7 +23,6 @@ enum HealthMetricContext: CaseIterable, Identifiable {
 }
 
 struct DashboardView: View {
-    
     @Environment(HealthKitManager.self) private var hkManager
     @AppStorage("hasSeenPermissionPriming") private var hasSeenPermissionPriming = false
     @State private var isShowingPermissionPrimingSheet = false
@@ -42,15 +41,26 @@ struct DashboardView: View {
                     }
                     .pickerStyle(.segmented)
                     // TODO: we could add settings like in topology app with some specific configurations
-                    // like: color of the charts, goals, average/weekly stats, etc
+                    // like: color of the charts, goals, average/weekly stats, kilograms or pounds, etc
                     // could be an option for paid version
-                    StepBarChart(selectedStat: selectedStat, chartData: hkManager.stepData)
-                    StepPieChart(chartData: ChartMath.averageWeekdayCount(for: hkManager.stepData))
+                   
+                    switch selectedStat {
+                    case .steps:
+                        StepBarChart(selectedStat: selectedStat, chartData: hkManager.stepData)
+                        StepPieChart(chartData: ChartMath.averageWeekdayCount(for: hkManager.stepData))
+                    case .weight:
+                        WeightLineChart(
+                            selectedStat: selectedStat,
+                            chartData: hkManager.weightData
+                        )
+                    }
+                    
                 }
             }
             .padding()
             .task {
                 await hkManager.fetchStepCount()
+                await hkManager.fetchWeights()
                 isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
             }
             .navigationTitle("Dashboard")
