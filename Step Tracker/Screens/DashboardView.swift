@@ -54,7 +54,6 @@ struct DashboardView: View {
                             chartData: hkManager.weightData
                         )
                     }
-                    
                 }
             }
             .padding()

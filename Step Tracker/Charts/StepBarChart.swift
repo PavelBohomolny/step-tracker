@@ -10,20 +10,25 @@ import Charts
 
 struct StepBarChart: View {
     @State private var rawSelectedDate: Date?
+    @State private var isExpanded = false
+    @State private var stepCountInput: String = ""
     
     var selectedStat: HealthMetricContext
     var chartData: [HealthMetric]
+    
+    /// Allow the user to set up steps goal
+    var stepsGoal: Double {
+        if let steps = Double(stepCountInput) {
+            return steps
+        } else {
+            return 10_000
+        }
+    }
     
     var avgStepCount: Double {
         guard !chartData.isEmpty else { return 0 }
         let totalSteps = chartData.reduce(0) { $0 + $1.value }
         return totalSteps/Double(chartData.count)
-        // TODO: This value could be generic from the user input as a daily goal
-        /// For example, the user could add his daily goal(10k steps) and this line would be like a  goal measure
-        /// As an option, we can add a configure button ⚙️ to allow users to add some specific settings, like:
-        /// - daily goal
-        /// - colour of the widgets
-        //        return 10_000
     }
     
     var selectedHealthMetric: HealthMetric? {
@@ -33,7 +38,59 @@ struct StepBarChart: View {
         }
     }
     
+    // TODO: This value could be generic from the user input as a daily goal
+    /// For example, the user could add his daily goal(10k steps) and this line would be like a  goal measure
+    /// As an option, we can add a configure button ⚙️ to allow users to add some specific settings, like:
+    /// - daily goal
+    /// - colour of the widgets
     var body: some View {
+        
+        // TODO: Create a separate file with settings
+        // MARK: - Settings
+        
+        HStack {
+            Label("Settings", systemImage: "gear")
+                .font(.title3.bold())
+                .foregroundStyle(.pink)
+            
+            Spacer()
+            
+            Image(systemName: "chevron.right")
+                .foregroundStyle(.secondary)
+                .rotationEffect(
+                    .degrees(isExpanded ? 90 : .zero)
+                )
+                .animation(.easeInOut, value: isExpanded)
+        }
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+        .onTapGesture {
+            withAnimation {
+                isExpanded.toggle()
+            }
+        }
+        
+        if isExpanded {
+            VStack {
+                HStack {
+                    Text("What is your daily step goal?")
+                        .font(.callout)
+                    Spacer()
+                    TextField("10.000", text: $stepCountInput)
+                        .frame(width: 55, height: 30)
+                        .keyboardType(.numberPad)
+                        .padding(4)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(.secondary, lineWidth: 1)
+                        )
+                }
+            }
+            .padding()
+            .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+            .transition(.opacity)
+        }
+        
         VStack {
             NavigationLink(value: selectedStat) {
                 HStack {
@@ -68,7 +125,7 @@ struct StepBarChart: View {
                         }
                 }
                 
-                RuleMark(y: .value("Average", avgStepCount))
+                RuleMark(y: .value("Average", stepsGoal))
                     .foregroundStyle(Color.secondary)
                     .lineStyle(.init(lineWidth: 1, dash: [5]))
                 
