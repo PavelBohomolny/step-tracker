@@ -13,6 +13,8 @@
 		8604B14D2BF4D08400F74A89 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8604B14C2BF4D08400F74A89 /* Date+Ext.swift */; };
 		8604B1502BF4D82200F74A89 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 8604B14F2BF4D82200F74A89 /* Algorithms */; };
 		8604B1522BF4E24900F74A89 /* StepPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8604B1512BF4E24900F74A89 /* StepPieChart.swift */; };
+		8604B1542BF60B0700F74A89 /* WeightLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8604B1532BF60B0700F74A89 /* WeightLineChart.swift */; };
+		8604B1572BF60C7E00F74A89 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8604B1562BF60C7E00F74A89 /* MockData.swift */; };
 		860BA8A02BE524F900571641 /* HealthDataListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BA89F2BE524F900571641 /* HealthDataListView.swift */; };
 		860BA8B22BEB650000571641 /* HealthKitPermissionPrimingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BA8B12BEB650000571641 /* HealthKitPermissionPrimingView.swift */; };
 		860BA8BC2BEB7BEE00571641 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BA8BB2BEB7BEE00571641 /* HealthKitManager.swift */; };
@@ -29,6 +31,8 @@
 		8604B1492BF4CE8300F74A89 /* ChartDataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataTypes.swift; sourceTree = "<group>"; };
 		8604B14C2BF4D08400F74A89 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		8604B1512BF4E24900F74A89 /* StepPieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepPieChart.swift; sourceTree = "<group>"; };
+		8604B1532BF60B0700F74A89 /* WeightLineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightLineChart.swift; sourceTree = "<group>"; };
+		8604B1562BF60C7E00F74A89 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		860BA89F2BE524F900571641 /* HealthDataListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataListView.swift; sourceTree = "<group>"; };
 		860BA8B12BEB650000571641 /* HealthKitPermissionPrimingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitPermissionPrimingView.swift; sourceTree = "<group>"; };
 		860BA8B32BEB68C200571641 /* Step Tracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Step Tracker.entitlements"; sourceTree = "<group>"; };
@@ -69,6 +73,7 @@
 			children = (
 				8604B1412BF4B51C00F74A89 /* StepBarChart.swift */,
 				8604B1512BF4E24900F74A89 /* StepPieChart.swift */,
+				8604B1532BF60B0700F74A89 /* WeightLineChart.swift */,
 				8604B1472BF4CE6700F74A89 /* ChartMath.swift */,
 				8604B1492BF4CE8300F74A89 /* ChartDataTypes.swift */,
 			);
@@ -99,6 +104,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		8604B1552BF60C2A00F74A89 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				8604B14B2BF4D06B00F74A89 /* Extensions */,
+				8604B1562BF60C7E00F74A89 /* MockData.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		86884BA42BE1296600456F3B = {
 			isa = PBXGroup;
 			children = (
@@ -121,7 +135,7 @@
 				860BA8BA2BEB7B2B00571641 /* Step-Tracker-Info.plist */,
 				860BA8B32BEB68C200571641 /* Step Tracker.entitlements */,
 				86884BB02BE1296600456F3B /* Step_TrackerApp.swift */,
-				8604B14B2BF4D06B00F74A89 /* Extensions */,
+				8604B1552BF60C2A00F74A89 /* Utilities */,
 				8604B1462BF4BF0300F74A89 /* Managers */,
 				8604B1452BF4BEF600F74A89 /* Model */,
 				8604B1442BF4BEA800F74A89 /* Charts */,
@@ -219,6 +233,7 @@
 				860BA8BC2BEB7BEE00571641 /* HealthKitManager.swift in Sources */,
 				860BA8A02BE524F900571641 /* HealthDataListView.swift in Sources */,
 				8604B1422BF4B51C00F74A89 /* StepBarChart.swift in Sources */,
+				8604B1572BF60C7E00F74A89 /* MockData.swift in Sources */,
 				86884BB32BE1296600456F3B /* DashboardView.swift in Sources */,
 				86884BB12BE1296600456F3B /* Step_TrackerApp.swift in Sources */,
 				860BA8B22BEB650000571641 /* HealthKitPermissionPrimingView.swift in Sources */,
@@ -226,6 +241,7 @@
 				860BA8C02BEBC24500571641 /* HealthMetric.swift in Sources */,
 				8604B14A2BF4CE8300F74A89 /* ChartDataTypes.swift in Sources */,
 				8604B1522BF4E24900F74A89 /* StepPieChart.swift in Sources */,
+				8604B1542BF60B0700F74A89 /* WeightLineChart.swift in Sources */,
 				8604B14D2BF4D08400F74A89 /* Date+Ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
