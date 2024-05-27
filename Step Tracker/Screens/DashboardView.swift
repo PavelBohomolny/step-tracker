@@ -5,6 +5,10 @@
 //  Created by Pavel Bohomolnyi on 30/04/2024.
 //
 
+// TODO: we could add settings like in topology app with some specific configurations
+// like: color of the charts, goals, average/weekly stats, kilograms or pounds, etc
+// could be an option for paid version
+
 import SwiftUI
 import Charts
 
@@ -41,23 +45,30 @@ struct DashboardView: View {
                         }
                     }
                     .pickerStyle(.segmented)
-                    // TODO: we could add settings like in topology app with some specific configurations
-                    // like: color of the charts, goals, average/weekly stats, etc
-                    // could be an option for paid version
-                    StepBarChart(selectedStat: selectedStat, chartData: hkManager.stepData)
-                    StepPieChart(chartData: ChartMath.averageWeekdayCount(for: hkManager.stepData))
+                    
+                    switch selectedStat {
+                    case .steps:
+                        StepBarChart(selectedStat: selectedStat, chartData: hkManager.stepData)
+                        StepPieChart(chartData: ChartMath.averageWeekdayCount(for: hkManager.stepData))
+                    case .weight:
+                        WeightLineChart(selectedStat: selectedStat, chartData: hkManager.weightData)
+                        WeightDiffBarChart(chartData: ChartMath.averageWeekdayCount(for: hkManager.weightDiffData))
+                    }
+                    
                 }
             }
             .padding()
             .task {
                 await hkManager.fetchStepCount()
+                await hkManager.fetchWeights()
+                await hkManager.fetchWeightForDifferentials()
                 isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
             }
             .navigationTitle("Dashboard")
             .navigationDestination(for: HealthMetricContext.self) { metric in
                 HealthDataListView(metric: metric)
             }
-            .fullScreenCover(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
+            .sheet(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
                 // fetch health data
             }, content: {
                 HealthKitPermissionPrimingView(hasSeen: $hasSeenPermissionPriming)
