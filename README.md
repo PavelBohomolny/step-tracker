@@ -49,8 +49,6 @@ Here's the code:
         return chartData.sorted { $0.value > $1.value }
     }
 ```
-<br>
-</br>
 
 # Completeness
 Although it's a simple portfolio project, I've implemented the following
